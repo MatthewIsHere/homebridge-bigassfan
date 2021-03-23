@@ -1,5 +1,5 @@
 {
-  "private": true,
+  "private": false,
   "displayName": "BigAssFans Homebridge",
   "name": "homebridge-bigassfans",
   "version": "1.0.0",
