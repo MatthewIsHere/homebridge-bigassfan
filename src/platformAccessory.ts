@@ -1,13 +1,13 @@
-import { Service, PlatformAccessory, CharacteristicValue, CharacteristicSetCallback, CharacteristicGetCallback } from 'homebridge';
+import { Service, PlatformAccessory, CharacteristicValue, CharacteristicSetCallback, CharacteristicGetCallback } from "homebridge";
 
-import { ExampleHomebridgePlatform } from './platform';
+import { BigAssFansHomebridge } from "./platform";
 
 /**
  * Platform Accessory
  * An instance of this class is created for each accessory your platform registers
  * Each accessory may expose multiple services of different service types.
  */
-export class ExamplePlatformAccessory {
+export class BigAssAccessory {
   private service: Service;
 
   /**
@@ -20,15 +20,15 @@ export class ExamplePlatformAccessory {
   };
 
   constructor(
-    private readonly platform: ExampleHomebridgePlatform,
+    private readonly platform: BigAssFansHomebridge,
     private readonly accessory: PlatformAccessory,
   ) {
 
     // set accessory information
     this.accessory.getService(this.platform.Service.AccessoryInformation)!
-      .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Default-Manufacturer')
-      .setCharacteristic(this.platform.Characteristic.Model, 'Default-Model')
-      .setCharacteristic(this.platform.Characteristic.SerialNumber, 'Default-Serial');
+      .setCharacteristic(this.platform.Characteristic.Manufacturer, "Default-Manufacturer")
+      .setCharacteristic(this.platform.Characteristic.Model, "Default-Model")
+      .setCharacteristic(this.platform.Characteristic.SerialNumber, "Default-Serial");
 
     // get the LightBulb service if it exists, otherwise create a new LightBulb service
     // you can create multiple services for each accessory
@@ -43,37 +43,37 @@ export class ExamplePlatformAccessory {
 
     // register handlers for the On/Off Characteristic
     this.service.getCharacteristic(this.platform.Characteristic.On)
-      .on('set', this.setOn.bind(this))                // SET - bind to the `setOn` method below
-      .on('get', this.getOn.bind(this));               // GET - bind to the `getOn` method below
+      .on("set", this.setOn.bind(this))                // SET - bind to the `setOn` method below
+      .on("get", this.getOn.bind(this));               // GET - bind to the `getOn` method below
 
     // register handlers for the Brightness Characteristic
     this.service.getCharacteristic(this.platform.Characteristic.Brightness)
-      .on('set', this.setBrightness.bind(this));       // SET - bind to the 'setBrightness` method below
+      .on("set", this.setBrightness.bind(this));       // SET - bind to the "setBrightness` method below
 
 
     /**
      * Creating multiple services of the same type.
      * 
-     * To avoid "Cannot add a Service with the same UUID another Service without also defining a unique 'subtype' property." error,
+     * To avoid "Cannot add a Service with the same UUID another Service without also defining a unique "subtype" property." error,
      * when creating multiple services of the same type, you need to use the following syntax to specify a name and subtype id:
-     * this.accessory.getService('NAME') || this.accessory.addService(this.platform.Service.Lightbulb, 'NAME', 'USER_DEFINED_SUBTYPE_ID');
+     * this.accessory.getService("NAME") || this.accessory.addService(this.platform.Service.Lightbulb, "NAME", "USER_DEFINED_SUBTYPE_ID");
      * 
      * The USER_DEFINED_SUBTYPE must be unique to the platform accessory (if you platform exposes multiple accessories, each accessory
      * can use the same sub type id.)
      */
 
     // Example: add two "motion sensor" services to the accessory
-    const motionSensorOneService = this.accessory.getService('Motion Sensor One Name') ||
-      this.accessory.addService(this.platform.Service.MotionSensor, 'Motion Sensor One Name', 'YourUniqueIdentifier-1');
+    const motionSensorOneService = this.accessory.getService("Motion Sensor One Name") ||
+      this.accessory.addService(this.platform.Service.MotionSensor, "Motion Sensor One Name", "YourUniqueIdentifier-1");
 
-    const motionSensorTwoService = this.accessory.getService('Motion Sensor Two Name') ||
-      this.accessory.addService(this.platform.Service.MotionSensor, 'Motion Sensor Two Name', 'YourUniqueIdentifier-2');
+    const motionSensorTwoService = this.accessory.getService("Motion Sensor Two Name") ||
+      this.accessory.addService(this.platform.Service.MotionSensor, "Motion Sensor Two Name", "YourUniqueIdentifier-2");
 
     /**
      * Updating characteristics values asynchronously.
      * 
      * Example showing how to update the state of a Characteristic asynchronously instead
-     * of using the `on('get')` handlers.
+     * of using the `on("get")` handlers.
      * Here we change update the motion sensor trigger states on and off every 10 seconds
      * the `updateCharacteristic` method.
      * 
@@ -87,8 +87,8 @@ export class ExamplePlatformAccessory {
       motionSensorOneService.updateCharacteristic(this.platform.Characteristic.MotionDetected, motionDetected);
       motionSensorTwoService.updateCharacteristic(this.platform.Characteristic.MotionDetected, !motionDetected);
 
-      this.platform.log.debug('Triggering motionSensorOneService:', motionDetected);
-      this.platform.log.debug('Triggering motionSensorTwoService:', !motionDetected);
+      this.platform.log.debug("Triggering motionSensorOneService:", motionDetected);
+      this.platform.log.debug("Triggering motionSensorTwoService:", !motionDetected);
     }, 10000);
   }
 
@@ -101,7 +101,7 @@ export class ExamplePlatformAccessory {
     // implement your own code to turn your device on/off
     this.exampleStates.On = value as boolean;
 
-    this.platform.log.debug('Set Characteristic On ->', value);
+    this.platform.log.debug("Set Characteristic On ->", value);
 
     // you must call the callback function
     callback(null);
@@ -125,7 +125,7 @@ export class ExamplePlatformAccessory {
     // implement your own code to check if the device is on
     const isOn = this.exampleStates.On;
 
-    this.platform.log.debug('Get Characteristic On ->', isOn);
+    this.platform.log.debug("Get Characteristic On ->", isOn);
 
     // you must call the callback function
     // the first argument should be null if there were no errors
@@ -142,7 +142,7 @@ export class ExamplePlatformAccessory {
     // implement your own code to set the brightness
     this.exampleStates.Brightness = value as number;
 
-    this.platform.log.debug('Set Characteristic Brightness -> ', value);
+    this.platform.log.debug("Set Characteristic Brightness -> ", value);
 
     // you must call the callback function
     callback(null);
