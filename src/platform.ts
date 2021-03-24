@@ -26,7 +26,7 @@ export class BigAssFansHomebridge implements DynamicPlatformPlugin {
     // in order to ensure they weren"t added to homebridge already. This event can also be used
     // to start discovery of new accessories.
     this.api.on("didFinishLaunching", () => {
-      log.debug("Executed didFinishLaunching callback");
+      this.log.debug("Executed didFinishLaunching callback");
       this.discoverDevices();
     });
   }
@@ -48,12 +48,11 @@ export class BigAssFansHomebridge implements DynamicPlatformPlugin {
       const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid)
       if (existingAccessory) {
         this.log.info("Restoring existing accessory from cache:", existingAccessory.displayName);
-        new BigAssAccessory(this, existingAccessory);
+        new BigAssAccessory(this, existingAccessory, fan);
       } else {
         this.log.info("Adding new accessory:", fan.name);
         const accessory = new this.api.platformAccessory(fan.name, uuid);
-        accessory.context.device = fan;
-        new BigAssAccessory(this, accessory);
+        new BigAssAccessory(this, accessory, fan);
         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
       }
     })
