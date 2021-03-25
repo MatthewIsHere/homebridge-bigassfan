@@ -5,11 +5,10 @@
   "schema": {
     "type": "object",
     "properties": {
-      "name": {
-        "title": "Name",
-        "type": "string",
-        "required": true,
-        "default": "BigAssFans"
+      "logTraffic": {
+        "title": "Log Fan Traffic",
+        "type": "boolean",
+        "description": "Logs Incoming And Outgoing Traffic From Fan Accessories"
       }
     }
   }
