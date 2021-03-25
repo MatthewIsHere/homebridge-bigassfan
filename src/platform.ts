@@ -11,8 +11,8 @@ export class BigAssFansHomebridge implements DynamicPlatformPlugin {
   // this is used to track restored cached accessories
   public readonly accessories: PlatformAccessory[] = [];
 
-  //Sets up the fan controller class which manages fan messages for accessories
-  private controller = new FanController(false, true)
+  public readonly logTraffic
+  private controller
 
   constructor(
     public readonly log: Logger,
@@ -20,6 +20,12 @@ export class BigAssFansHomebridge implements DynamicPlatformPlugin {
     public readonly api: API,
   ) {
     this.log.debug("Finished initializing platform:", this.config.name);
+
+    let platforms: any[] = config.platforms as any[]
+    let bigAssFanConfig: any = platforms.find(platform => platform.platform === "BigAssFans") as any
+    this.logTraffic = bigAssFanConfig.logTraffic
+    //Sets up the fan controller class which manages fan messages for accessories
+    this.controller = new FanController(false, this.logTraffic)
 
     // When this event is fired it means Homebridge has restored all cached accessories from disk.
     // Dynamic Platform plugins should only register new accessories after this event was fired,
