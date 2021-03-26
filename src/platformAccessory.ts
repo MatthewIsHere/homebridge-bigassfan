@@ -1,12 +1,8 @@
-import { Service, PlatformAccessory, CharacteristicValue, CharacteristicSetCallback, CharacteristicGetCallback } from "homebridge";
+import { Service, PlatformAccessory, CharacteristicValue, CharacteristicSetCallback, CharacteristicGetCallback } from "homebridge"
 
-import { BigAssPlatform } from "./platform";
+import { BigAssPlatform } from "./platform"
 import { BigAssFan } from "bigassfanjs"
-/**
- * Platform Accessory
- * An instance of this class is created for each accessory your platform registers
- * Each accessory may expose multiple services of different service types.
- */
+
 export class BigAssAccessory {
 
   private service: Service;
@@ -22,33 +18,25 @@ export class BigAssAccessory {
       .setCharacteristic(this.platform.Characteristic.Model, "BigAssFan")
       .setCharacteristic(this.platform.Characteristic.SerialNumber, this.fan.mac)
 
-    // get the LightBulb service if it exists, otherwise create a new LightBulb service
-    // you can create multiple services for each accessory
-    this.service = this.accessory.getService(this.platform.Service.Fan) || this.accessory.addService(this.platform.Service.Fan);
+    //sets service to Fan
+    this.service = this.accessory.getService(this.platform.Service.Fan) || this.accessory.addService(this.platform.Service.Fan)
 
     // set the service name, this is what is displayed as the default name on the Home app
-    // in this example we are using the name we stored in the `accessory.context` in the `discoverDevices` method.
-    this.service.setCharacteristic(this.platform.Characteristic.Name, fan.name);
+    this.service.setCharacteristic(this.platform.Characteristic.Name, fan.name)
 
 
-    // register handlers for the On/Off Characteristic
+    // register handlers for properties
     this.service.getCharacteristic(this.platform.Characteristic.On)
-      .on("set", this.setOn.bind(this))               // SET - bind to the `setOn` method below
-      .on("get", this.getOn.bind(this));               // GET - bind to the `getOn` method below
-    
+      .on("set", this.setOn.bind(this))              
+      .on("get", this.getOn.bind(this))
     this.service.getCharacteristic(this.platform.Characteristic.RotationSpeed)
       .on("set", this.setSpeed.bind(this))
       .on("get", this.getSpeed.bind(this))
   }
 
-  /**
-   * Handle "SET" requests from HomeKit
-   * These are sent when the user changes the state of an accessory, for example, turning on a Light bulb.
-   */
   setOn(value: CharacteristicValue, callback: CharacteristicSetCallback) {
     this.fan.power(value).then(() => callback(undefined, undefined))
   }
-
   getOn(callback: CharacteristicGetCallback) {
     this.fan.power().then(power => callback(undefined, power))
   }
