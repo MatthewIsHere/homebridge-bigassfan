@@ -1,3 +1,3 @@
-add config options such as debug which is on by default now, or options to scan multiple times or for a set number of fans.
-add serial number and model to the fan accessory. i think serial can be readonly acced through api which ill try and implement tonight
+add option for set number of fans incase one is missed at startup, which is uncommon, but happens.
+add model when implemented in bigassfanjs
 implement fan direction, just because
