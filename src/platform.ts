@@ -4,7 +4,7 @@ import { PLATFORM_NAME, PLUGIN_NAME } from "./settings";
 import { BigAssAccessory } from "./platformAccessory";
 import { FanController } from "bigassfanjs"
 
-export class BigAssFansHomebridge implements DynamicPlatformPlugin {
+export class BigAssPlatform implements DynamicPlatformPlugin {
   public readonly Service: typeof Service = this.api.hap.Service;
   public readonly Characteristic: typeof Characteristic = this.api.hap.Characteristic;
 

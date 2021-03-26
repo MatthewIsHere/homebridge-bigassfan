@@ -1,6 +1,6 @@
 import { Service, PlatformAccessory, CharacteristicValue, CharacteristicSetCallback, CharacteristicGetCallback } from "homebridge";
 
-import { BigAssFansHomebridge } from "./platform";
+import { BigAssPlatform } from "./platform";
 import { BigAssFan } from "bigassfanjs"
 /**
  * Platform Accessory
@@ -8,9 +8,10 @@ import { BigAssFan } from "bigassfanjs"
  * Each accessory may expose multiple services of different service types.
  */
 export class BigAssAccessory {
+
   private service: Service;
   constructor(
-    private readonly platform: BigAssFansHomebridge,
+    private readonly platform: BigAssPlatform,
     private readonly accessory: PlatformAccessory,
     private fan: BigAssFan
   ) {
@@ -18,8 +19,8 @@ export class BigAssAccessory {
     // set accessory information
     this.accessory.getService(this.platform.Service.AccessoryInformation)!
       .setCharacteristic(this.platform.Characteristic.Manufacturer, "BigAssFans")
-  /*    .setCharacteristic(this.platform.Characteristic.Model, "Default-Model")
-      .setCharacteristic(this.platform.Characteristic.SerialNumber, "Default-Serial");*/
+      .setCharacteristic(this.platform.Characteristic.Model, "BigAssFan")
+      .setCharacteristic(this.platform.Characteristic.SerialNumber, this.fan.mac)
 
     // get the LightBulb service if it exists, otherwise create a new LightBulb service
     // you can create multiple services for each accessory
@@ -45,9 +46,8 @@ export class BigAssAccessory {
    * These are sent when the user changes the state of an accessory, for example, turning on a Light bulb.
    */
   setOn(value: CharacteristicValue, callback: CharacteristicSetCallback) {
-    this.fan.power(value).then(power => callback(undefined, undefined))
+    this.fan.power(value).then(() => callback(undefined, undefined))
   }
-
 
   getOn(callback: CharacteristicGetCallback) {
     this.fan.power().then(power => callback(undefined, power))
@@ -55,9 +55,8 @@ export class BigAssAccessory {
 
   setSpeed(value: CharacteristicValue, callback: CharacteristicSetCallback) {
     let outOfSeven = Math.round(((value as number*7)/100))
-    this.fan.speed(outOfSeven).then(speed => callback(undefined, undefined))
+    this.fan.speed(outOfSeven).then(() => callback(undefined, undefined))
   }
-
   getSpeed(callback: CharacteristicGetCallback) {
     this.fan.speed().then(speed => {
       let outOfHundred = Math.round((speed*100)/7)
