@@ -18,7 +18,7 @@ export class BigAssPlatform implements DynamicPlatformPlugin {
     public readonly api: API,
   ) {
     this.controller = new FanController(false, this.config.logTraffic)
-    this.api.on("didFinishLaunching", this.finishedLaunching)
+    this.api.on("didFinishLaunching", this.finishedLaunching.bind(this))
   }
 
   private finishedLaunching(): void {
