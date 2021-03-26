@@ -22,7 +22,10 @@ export class BigAssFansHomebridge implements DynamicPlatformPlugin {
     this.log.debug("Finished initializing platform:", this.config.name);
 
     let platforms: any[] = config.platforms as any[]
-    let bigAssFanConfig: any = platforms.find(platform => platform.platform === "BigAssFans") as any
+    let bigAssFanConfig
+    platforms.forEach(platform => {
+      if (platform.platform == "BigAssFans") bigAssFanConfig = platform
+    })
     this.logTraffic = bigAssFanConfig.logTraffic
     //Sets up the fan controller class which manages fan messages for accessories
     this.controller = new FanController(false, this.logTraffic)
