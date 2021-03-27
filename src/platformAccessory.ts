@@ -16,7 +16,7 @@ export class BigAssAccessory {
     this.accessory.getService(this.platform.Service.AccessoryInformation)!
       .setCharacteristic(this.platform.Characteristic.Manufacturer, "BigAssFans")
       .setCharacteristic(this.platform.Characteristic.Model, "BigAssFan")
-      .setCharacteristic(this.platform.Characteristic.SerialNumber, this.fan.mac)
+      .setCharacteristic(this.platform.Characteristic.SerialNumber, fan.mac)
 
     //sets service to Fan
     this.service = this.accessory.getService(this.platform.Service.Fan) || this.accessory.addService(this.platform.Service.Fan)
